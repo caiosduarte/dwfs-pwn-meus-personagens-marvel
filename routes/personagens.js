@@ -73,7 +73,7 @@ router.get('/:id/desfavorita', function(req, res, next) {
 	let personagemId = req.params.id;
 	let token = verificaUsuarioLogado().token;
 
-	Usuarios.updateOne({ token }, { $delete: { favoritos: personagemId }, upsert: false })
+	Usuarios.updateOne({ token }, { $pull: { favoritos: personagemId }, upsert: false })
 		.then(() => {
 			console.log('Favorito acrescentado.');
 		})
