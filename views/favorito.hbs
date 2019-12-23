@@ -1,0 +1,23 @@
+{{#if total}}
+<p>
+    Encontrado(s) {{total}}:
+</p>
+{{/if}}
+
+<ul>
+    {{#each personagens}}
+        <li>           
+            <p>
+                <a href="/personagens/{{this.id}}">
+                    {{this.nome}}<br>
+                    <img src="{{this.thumbnail}}" alt="{{this.nome}}" />
+                            
+                <br>
+                {{#if this.favorito}}
+                    Favorito
+                {{/if}}   
+                </a>
+            </p>     
+        </li>
+    {{/each}}
+</ul>

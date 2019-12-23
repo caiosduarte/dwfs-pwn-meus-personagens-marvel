@@ -1,6 +1,8 @@
 var express = require('express');
 var router = express.Router();
 
+const verificaUsuarioLogado = require('../services/verifica-usuario');
+
 
 router.post('/login', function(req, res) {
   let session = req.session;
@@ -18,28 +20,11 @@ router.get('/logout', function(req, res) {
   });
 });
 
-/* codigo antigo */
+router.get('/favoritos', (req, res) => {
+  let token = verificaUsuarioLogado().token;
 
-let users = {items: []};
 
-router.get('/', function(req, res, next) {
-  res.json(users.items);
-});
 
-router.get('/:email', function(req, res, next) {
-  res.json(users.items.filter(u => u.email == req.params.email));
-});
-
-router.post('/', function(req, res, next) {
-  users.items.push(req.body);
-  res.json({"status": res.statusCode});
- 
-});
-
-router.delete('/:email', function(req, res, next) {
-  users.items = users.items.filter(u => u.email != req.params.email);
-  res.json({"status": res.statusCode});
- 
 });
 
 module.exports = router;
