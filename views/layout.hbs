@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>{{title}}</title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+  </head>
+  <body>
+    {{#unless semMenu}}
+    <div id="menu">
+      <p>
+      {{#if session.usuario }}        
+        {{session.usuario}} <a href="/usuarios/logout">(Logout)</a> <a href="/favoritos">Meus Favoritos</a>
+      {{else}}        
+        <a id="login-url">Login</a        
+      {{/if}}
+      </p>
+    </div>
+    {{/unless}}
+    {{{body}}}
+    <script>
+      var loginUrl = document.getElementById('login-url');
+      if (loginUrl) {
+        loginUrl.href = `/login?urlChamador=${window.location.href}`;
+      }      
+    </script>
+  </body>
+</html>

@@ -1,0 +1,12 @@
+{{#if usuario}}
+  Bem-vindo, {{usuario}}!    
+{{else}}
+  <form method="POST" action="/usuarios/login">
+    <span>Usuário</span>
+    <input type="text" name="usuario"/>
+    <br/>
+    <br/>
+    <button onclick="window.location.assign("{{urlChamador}}");">Cancel</button>
+    <button type="submit">Login</button>
+  <form>
+{{/if}}

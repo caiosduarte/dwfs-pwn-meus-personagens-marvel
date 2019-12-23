@@ -1,0 +1,39 @@
+<h1>Busca de Personagens</h1>
+<form method="GET" action="/busca">    
+    <input type="text" name="q" value="{{q}}" placeholder="Iniciais do nome" required>
+    <input type="hidden" name="offset" value="0">
+    <button type="submit">Buscar</button>
+</form>
+<hr>
+{{#if total}}
+<p>
+    Encontrado(s) {{total}}:
+</p>
+{{/if}}
+
+<ul>
+    {{#each personagens}}
+        <li>           
+            <p>
+                <a href="/personagens/{{this.id}}">
+                    {{this.nome}}<br>
+                    <img src="{{this.thumbnail}}" alt="{{this.nome}}" />
+                            
+                <br>
+                {{#if this.favorito}}
+                    Favorito
+                {{/if}}   
+                </a>
+            </p>     
+        </li>
+    {{/each}}
+</ul>
+
+
+{{#if paginas.length}}    
+<p>
+    {{#each paginas}}
+        <a href="{{this.url}}">{{this.numero}}</a> 
+    {{/each}}
+</p>
+{{/if}}

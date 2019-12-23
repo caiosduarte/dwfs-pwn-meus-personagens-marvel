@@ -1,0 +1,10 @@
+<h1>{{personagem.nome}}</h1>
+<img src="{{personagem.foto}}" alt="{{personagem.nome}}"/>
+<p>
+    {{personagem.descricao}}
+</p>
+{{#if personagem.favorito}}
+<a href="/personagens/{{personagem.id}}/desfavorita">Favorito</a>
+{{else}}
+<a href="/personagens/{{personagem.id}}/favorita">Favoritar</a>
+{{/if}}
