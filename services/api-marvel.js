@@ -9,24 +9,23 @@ const HASH = 'cb435dca66f97d476c7753a8a2085bd8';
 const AUTH = `?ts=1&apikey=${API_KEY}&hash=${HASH}`;
 
 
-const getFavoritos = (token) => {
+function getFavoritos(token)  {
     
     Usuarios.findOne().where({token})
-        .then(usu => {
-            
+        .then(usu => {                     
             return usu.favoritos;
         })
-        .catch(erro => {
-            console.log(`Erro: ${erro}`)
+        .catch(() => {
             return [];
         });        
     
 };
 
-const converteCharacterMarvel = (data) => {    
+async function converteCharacterMarvel(data) {    
     let personagens = [];
-    let favoritos = getFavoritos(verificaUsuarioLogado().token);
-    console.log(`favoritos: ${favoritos}`);
+    let favoritos = await getFavoritos(verificaUsuarioLogado().token);
+    console.log(`favoritos: ${favoritos}`)   
+
     data.forEach(character => {
         let id = character.id;
 
