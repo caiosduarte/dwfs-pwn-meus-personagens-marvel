@@ -20,7 +20,7 @@ router.get('/busca', function(req, res) {
   let stringPesquisa = `${apiMarvel.URL_BASE}${apiMarvel.AUTH}&nameStartsWith=${q}&limit=10&orderBy=name&offset=${offset}`;
   var personagens = [];
   var total;
-  var paginas;
+  var paginas = [];
 	axios.get(stringPesquisa).then((response) => {
 		if (response.status == 200) {
 				response.data.data.results.forEach((character) => {
@@ -39,7 +39,7 @@ router.get('/busca', function(req, res) {
 				});
 				total = response.data.data.total;
 
-				let paginas = [];
+				
 				for (let i = 0, numero = 1; i < total && total / 10 >= 1; i += 10, numero++) {
 					let pagina = {
 						url: `/busca?q=${req.query.q}&offset=${i}`,
@@ -58,10 +58,10 @@ router.get('/busca', function(req, res) {
       favoritos = usu.favoritos;  
       console.log(`favoritos: ${favoritos}`);
       personagens.forEach(p => {
-        p.favorito = favoritos.findIndex((f) => {f == p.id}) >= 0;
-        console.log(`personagem: ${p.id}`);
+        p.favorito = favoritos.findIndex((f) => {f == p.id}) >= 0;        
       });
     }).finally(()=> {
+	  console.log(`páginas: ${paginas}`); 
       res.render('index', { q, total, personagens, paginas });	
     })    
   });
