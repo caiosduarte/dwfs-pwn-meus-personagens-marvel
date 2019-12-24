@@ -54,6 +54,22 @@ router.get('/:id', function(req, res, next) {
 		});
 });
 
+// teste do post salvando todos os dados do personagem
+router.post('/favorita', function(req, res, next) {
+	let personagem = req.body;
+	let token = verificaUsuarioLogado().token;
+
+	Usuarios.updateOne({ token }, { $push: { favoritos2: personagem }, upsert: true })
+		.then(() => {
+			console.log('Favorito acrescentado.');
+		})
+		.catch(() => {
+			console.log('Erro ao acrescentar personagem favorito.');
+		});
+
+	res.redirect(`/personagens/${personagemId}`);
+});
+
 router.get('/:id/favorita', function(req, res, next) {
 	let personagemId = req.params.id;
 	let token = verificaUsuarioLogado().token;
