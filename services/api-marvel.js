@@ -23,8 +23,6 @@ function getFavoritos(token)  {
 
 async function converteCharacterMarvel(data) {    
     let personagens = [];
-    let favoritos = await getFavoritos(verificaUsuarioLogado().token);
-    console.log(`favoritos: ${favoritos}`)   
 
     data.forEach(character => {
         let id = character.id;
@@ -34,11 +32,10 @@ async function converteCharacterMarvel(data) {
             nome: character.name,
             descricao: character.description,
             thumbnail: `${character.thumbnail.path}/standard_medium.${character.thumbnail.extension}`,
-            foto: `${character.thumbnail.path}/portrait_incredible.${character.thumbnail.extension}`,
-            favorito: (favoritos.findIndex(f => f == id) >=0)
+            foto: `${character.thumbnail.path}/portrait_incredible.${character.thumbnail.extension}`
         };      
-        console.log(`personagem: ${personagem.favorito}` )
         personagens.push(personagem);
+        console.log(`personagem: ${personagem}`);
     });
 
     return personagens;
