@@ -20,7 +20,7 @@ router.get('/logout', function(req, res) {
     res.redirect('/');
   });
 });
-/*
+
 router.get('/favoritos', (req, res) => {
   let token = verificaUsuarioLogado().token;
 
@@ -29,45 +29,61 @@ router.get('/favoritos', (req, res) => {
 
   Usuarios.findOne().where({token})
     .then(usuario => {
-
-      usuario.favoritos.forEach(id => {
-        let stringPesquisa = `${apiMarvel.URL_BASE}/${id}${apiMarvel.AUTH}`;
-        
-        axios.get(stringPesquisa)
-        .then((response) => {
-          if (response.status == 200) {
-            
-            //personagens = apiMarvel.converteCharacterMarvel(response.data.data.results); 
-            response.data.data.results.forEach(character => {
-              let id = character.id;
-    
-              let personagem = {
-                  id,
-                  nome: character.name,
-                  descricao: character.description,
-                  thumbnail: `${character.thumbnail.path}/standard_medium.${character.thumbnail.extension}`,
-                  foto: `${character.thumbnail.path}/portrait_incredible.${character.thumbnail.extension}`
-              };      
-              personagens.push(personagem);
-              console.log(`personagem: ${personagem.nome}`);  
-              console.log(`personagens: ${personagens[0]}`);  
-            }); 
-    
-          }
-        })
-        
+      getFavoritos(usuario.favoritos)
+      .then(resultado => {
+        personagens = resultado;
+        total =  usuario.favoritos.length;                
       });
-
-      total =  usuario.favoritos.length;
-      console.log(`personagens: ${personagens}`);
     })
     .catch(e => {console.log(e);})
-    .finally(() => {
+    .then(() => {
+      console.log(`personagens: ${personagens.length}`);
       res.render('favorito', {personagens, total});
-
-      
     });
 });
-*/
+
+async function getFavoritos(ids) {
+  let favoritos = [];
+  ids.forEach(id => {
+    let stringPesquisa = `${apiMarvel.URL_BASE}/${id}${apiMarvel.AUTH}`;
+    axios.get(stringPesquisa)
+    .then(response => {
+      if (response.status == 200) {            
+          response.data.data.results.forEach(character => {
+            let id = character.id;
+    
+            let personagem = {
+                id,
+                nome: character.name,
+                descricao: character.description,
+                thumbnail: `${character.thumbnail.path}/standard_medium.${character.thumbnail.extension}`,
+                foto: `${character.thumbnail.path}/portrait_incredible.${character.thumbnail.extension}`
+            };      
+            favoritos.push(personagem);            
+            console.log(`favorito => ${personagem.nome}`);
+        });
+      }
+    });  
+  });
+
+  
+  return favoritos;
+}
+
+function getFavorito(id) {
+  let personagem;
+  let stringPesquisa = `${apiMarvel.URL_BASE}/${id}${apiMarvel.AUTH}`;
+  axios.get(stringPesquisa)
+  .then(response => {
+    if (response.status == 200) {            
+        apiMarvel.converteCharacterMarvel(response.data.data.results)
+        .then(p => {
+          personagem = p;          
+        })
+        .catch(e => {console.log(e);});         
+    }
+  });
+  return personagem;
+}
 
 module.exports = router;

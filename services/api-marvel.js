@@ -35,7 +35,7 @@ async function converteCharacterMarvel(data) {
             foto: `${character.thumbnail.path}/portrait_incredible.${character.thumbnail.extension}`
         };      
         personagens.push(personagem);
-        console.log(`personagem: ${personagem}`);
+        
     });
 
     return personagens;
